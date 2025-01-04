@@ -1,0 +1,42 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李潇然的博客</title>
+    <link rel="icon" type="image/png" href="https://image.magicnue.top/assets/triangle_512px_W.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="avatar">
+                <img src="https://image.magicnue.top/assets/李潇然.webp" alt="头像">
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="#" data-page="home"><span class="material-icon">home</span>Home</a></li>
+                    <li><a href="#" data-page="about"><span class="material-icon">info</span>About</a></li>
+                    <li>
+                        <a href="#" data-page="blogs"><span class="material-icon">article</span>Blogs</a>
+                        <ul class="submenu">
+                            <li><a href="#" data-page="blogs-sub">Hexo1</a></li>
+                            <li><a href="#" data-page="blogs-sub">Hexo2</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" data-page="project"><span class="material-icon">work</span>Project</a></li>
+                    <li><a href="#" data-page="library"><span class="material-icon">library_books</span>Library</a></li>
+                    <li><a href="#" data-page="friend"><span class="material-icon">group</span>Friend</a></li>
+                    <li><a href="#" data-page="contact"><span class="material-icon">mail</span>Contact</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content" id="main-panel">
+            <!-- 内容将通过JavaScript动态加载 -->
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

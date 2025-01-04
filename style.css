@@ -1,0 +1,237 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #e8eff8; /* Light blueish background */
+    color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 900px; /* 按需调整 */
+    max-width: 95%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    /* Fade in/out effect when clicking the button */
+    transition: height 0.3s ease; /* 添加高度过渡效果 */
+    height: auto; /* 高度随内容自适应 */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px; /* 按需调整 */
+    padding: 30px;
+    background-color: #e8eff8;
+}
+
+.avatar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.menu ul {
+    list-style: none;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.menu li a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.material-icon {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;  /*  与原 icon 的大小保持一致 */
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;             
+
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle; /* 垂直居中图标 */
+}
+
+/* Submenu */
+.submenu {
+    display: none; /* Initially hide submenu */
+    margin-left: 20px;
+    list-style: none;
+}
+
+.menu > li:hover .submenu {
+    display: block;
+}
+
+.submenu li a {
+    padding: 5px 10px;
+}
+
+/* Main Content */
+
+.main-content {
+    width: 650px; /* 固定宽度 */
+    max-width: 100%; /* 确保小屏幕适应 */
+    flex-grow: 1;
+    padding: 30px;
+    opacity: 1; /* 初始透明度为 1 */
+    transition: opacity 0.1s ease-in-out; /* 添加过渡效果 */
+}
+
+.main-content.fade-out {
+    opacity: 0; /* 淡出 */
+}
+
+.main-content.fade-in {
+    opacity: 1; /* 淡入 */
+}
+
+
+.hero {
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.info-box h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.info-box h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.info-box p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.ice-icon{
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+/* Post */
+.post-banner {
+    height: 250px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+.post-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-content h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.post-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.post-content h3 h4 {
+    margin-bottom: 10px;
+}
+
+.post-content p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.占位符 {
+    height: 40px;
+}
+
+/* 针对小屏幕的样式调整 */
+@media (max-width: 768px) {
+    .container {
+      flex-direction: column; /* 垂直排列 */
+    }
+
+    .sidebar {
+      width: 100%; /* 宽度铺满 */
+      padding: 15px; /* 缩小 padding */
+    }
+    .avatar img {
+      width: 100px;
+      height: 100px;
+    }
+
+    .menu li a {
+        padding: 8px;
+    }
+    .material-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+    }
+
+    .submenu {
+      margin-left: 10px; /* 缩小 submenu 的左边距 */
+    }
+
+    .main-content {
+      padding: 15px; /* 缩小 padding */
+    }
+    .info-box h1 {
+      font-size: 28px; /* 缩小标题字体 */
+    }
+    .info-box p{
+      font-size: 16px;
+    }
+  .post-content h2 {
+        font-size: 20px;
+    }
+  .post-content p{
+      font-size: 16px;
+  }
+
+}
