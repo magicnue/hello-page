@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片格式转换</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.0/browser-image-compression.min.js"></script>
+    <style>
+       /* 移除或减少内置样式，主要使用 css 文件中的样式 */
+       .drop-zone {
+           border: 2px dashed #cccccc;
+           border-radius: 4px;
+           padding: 20px;
+           text-align: center;
+           margin: 20px 0;
+           background: #f0f0f0;
+           cursor: pointer;
+           transition: all 0.3s ease;
+       }
+       .drop-zone:hover, .drop-zone.drag-over {
+           border-color: #6699cc;
+           background: #e0e0e0;
+       }
+        .preview ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .preview li {
+            flex: 1 1 200px;
+            margin: 5px;
+            text-align: center;
+        }
+        .preview img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+       .controls {
+           margin-top: 20px;
+       }
+       .controls .format-select {
+           display: flex;
+           justify-content: flex-start;
+           margin-bottom: 15px;
+       }
+        .controls .format-select button {
+           background: #e0e0e0;
+           color: #333;
+           border: none;
+           padding: 10px 15px;
+           border-radius: 4px;
+           cursor: pointer;
+           margin-right: 5px;
+           font-size: 14px;
+            transition: background-color 0.2s ease;
+           flex: 0 0 auto;
+        }
+        .controls .format-select button.selected {
+            background-color: #6699cc;
+            color: white;
+       }
+       .controls .quality-control {
+           display: flex;
+           align-items: center;
+           margin-bottom: 15px;
+       }
+
+        .controls .quality-control label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+
+        .controls .quality-control span {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #6699cc; /* 使用主题色 */
+            display: inline-block;
+            width: 20px;
+            text-align: center; /* 使数字居中 */
+            border: 1px solid #6699cc; /* 添加边框 */
+            border-radius: 4px; /* 添加圆角 */
+            padding: 2px 0;
+        }
+
+
+
+       .controls button, .controls input[type="range"] {
+            background: #6699cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+       }
+       .controls input[type="range"] {
+            background: #cccccc;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 200px;
+            height: 10px;
+            border-radius: 4px;
+            margin-left: 10px;
+            vertical-align: middle;
+       }
+       .controls input[type="range"]::-webkit-slider-thumb {
+           -webkit-appearance: none;
+           appearance: none;
+           width: 12px;
+           height: 12px;
+           background: #6699cc;
+           border-radius: 50%;
+           border: none;
+       }
+       .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+            display: none;
+        }
+       .progress-bar-fill {
+           height: 100%;
+           background-color: #6699cc;
+           width: 0%;
+           transition: width 0.3s ease;
+       }
+        .file-info, .file-list-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .file-list-item {
+            display: flex;
+            align-items: center;
+        }
+        .controls button:disabled {
+           background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+
+            <nav class="menu">
+                <ul>
+                    <li><a href="#"><span class="material-icon">settings</span>图片格式转换</a></li>
+                </ul>
+            </nav>
+        </div>
+
+       <div class="main-content">
+            <div class="hero">
+              <div class="info-box">
+                <h2>图片格式转换</h2>
+                <h2>V20250105</h2>
+                <p>这是一个简单的图片格式转换工具。支持 JPG, PNG, WebP 格式转换。</p>
+              </div>
+            </div>
+
+            <div class="drop-zone" id="dropZone">
+                <p>拖放图片到这里或点击选择文件</p>
+                <input type="file" id="fileInput" accept="image/*" multiple style="display: none">
+            </div>
+
+            <div class="file-list" id="fileList"></div>
+
+            <div class="preview" id="preview">
+                <ul id="previewList"></ul>
+            </div>
+
+            <div class="controls">
+               <div class="format-select" id="formatSelect">
+                    <button value="image/jpeg">JPEG</button>
+                    <button value="image/png">PNG</button>
+                    <button value="image/webp">WebP</button>
+                </div>
+                <div class="quality-control">
+                    <label>质量 (1-5，越高越好)：</label>
+                    <input type="range" id="qualityRange" min="1" max="5" value="4">
+                    <span id="qualityValue">4</span>  <!-- 添加显示当前质量的 <span> -->
+                </div>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+
+                <button id="convertBtn" disabled>转换</button>
+                <button id="downloadBtn" disabled>下载</button>
+            </div>
+
+            <div id="result"></div>
+       </div>
+    </div>
+
+    <script>
+        let currentFiles = [];
+        let convertedBlobs = [];
+        let selectedFormat = 'image/jpeg'; // 默认格式
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const previewList = document.getElementById('previewList');
+        const convertBtn = document.getElementById('convertBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const formatSelect = document.getElementById('formatSelect');
+        const qualityRange = document.getElementById('qualityRange');
+
+        const qualityValue = document.getElementById('qualityValue'); // 获取显示当前质量的元素
+
+        // 初始化质量值显示
+        qualityValue.textContent = qualityRange.value;
+
+        // 监听滑块变化，更新质量值显示
+        qualityRange.addEventListener('input', () => {
+            qualityValue.textContent = qualityRange.value;
+        });
+
+
+
+        // 初始化格式选择按钮组
+        const formatButtons = formatSelect.querySelectorAll('button');
+        formatButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                formatButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedFormat = button.value;
+            });
+            if (button.value === selectedFormat) { //设置默认选中
+                button.classList.add('selected');
+            }
+        });
+
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', () => {
+            handleFiles(fileInput.files);
+        });
+
+        function handleFiles(files) {
+            if (!files || files.length === 0) {
+                alert('请选择有效的图片文件！');
+                return;
+            }
+
+            currentFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+            if (currentFiles.length === 0) {
+                alert('没有选择有效的图片文件！');
+                return;
+            }
+
+            const skippedFiles = Array.from(files).filter(file => !file.type.startsWith('image/'));
+            if (skippedFiles.length > 0) {
+                alert('以下文件不支持处理：' + skippedFiles.map(file => file.name).join(', '));
+            }
+
+            convertBtn.disabled = false;
+            downloadBtn.disabled = true;
+
+            fileList.innerHTML = '';
+            previewList.innerHTML = '';
+            currentFiles.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-list-item';
+                fileItem.innerHTML = `
+                    <strong>文件名：</strong>${file.name}
+                    <strong>大小：</strong>${(file.size / 1024).toFixed(2)} KB
+                    <strong>格式：</strong>${file.type}
+                `;
+                fileList.appendChild(fileItem);
+
+                const li = document.createElement('li');
+                const img = document.createElement('img');
+                const reader = new FileReader();
+                reader.onload = e => {
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                li.appendChild(img);
+                previewList.appendChild(li);
+            });
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            if (currentFiles.length === 0) return;
+
+            const quality = qualityRange.value / 5;
+
+            progressBar.style.display = 'block';
+            convertBtn.disabled = true;
+
+            try {
+                convertedBlobs = [];
+                for (let i = 0; i < currentFiles.length; i++) {
+                    const file = currentFiles[i];
+                    const img = new Image();
+                    img.src = URL.createObjectURL(file);
+                    img.onload = async () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        canvas.toBlob(async (blob) => {
+                            if (!blob) {
+                                alert('转换失败！');
+                                return;
+                            }
+                            const options = {
+                                maxSizeMB: 10,
+                                maxWidthOrHeight: 4096,
+                                useWebWorker: true,
+                                fileType: selectedFormat,
+                                quality: quality
+                            };
+                            try {
+                                const compressedBlob = await imageCompression(blob, options);
+                                convertedBlobs.push(compressedBlob);
+                                progressBarFill.style.width = ((i + 1) / currentFiles.length * 100) + '%';
+                                if (i === currentFiles.length - 1) {
+                                    document.getElementById('result').innerHTML = '<div class="file-info">转换完成！</div>';
+                                    downloadBtn.disabled = false;
+                                }
+                            } catch (error) {
+                                alert('压缩过程中发生错误：' + error.message);
+                            }
+                            if (i === currentFiles.length - 1) {
+                                progressBar.style.display = 'none';
+                                convertBtn.disabled = false;
+                            }
+                        }, selectedFormat, quality);
+                    };
+                }
+            } catch (error) {
+                alert('转换过程中发生错误：' + error.message);
+                progressBar.style.display = 'none';
+                convertBtn.disabled = false;
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (convertedBlobs.length === 0) return;
+
+            const format = selectedFormat.split('/')[1];
+             const quality = Math.round((qualityRange.value / 5) * 100);
+
+
+            convertedBlobs.forEach((blob, index) => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `converted_${index}_q${quality}.${format}`;
+                a.click();
+            });
+        });
+    </script>
+</body>
+</html>
