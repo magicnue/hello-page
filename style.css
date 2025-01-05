@@ -24,6 +24,8 @@ body {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     /* Fade in/out effect when clicking the button */
     transition: height 0.3s ease; /* 添加高度过渡效果 */
+    min-height: 60vh; /* 最小高度 */
+    max-height: 70vh; /* 最大高度 */
     height: auto; /* 高度随内容自适应 */
 }
 
@@ -64,7 +66,10 @@ body {
 .menu li a:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
-
+.menu li.selected > a,
+.menu li.selected > a:hover {
+    background-color: rgba(0, 0, 0, 0.1); /*  选中状态高亮 */
+}
 .material-icon {
     font-family: 'Material Symbols Outlined';
     font-weight: normal;
@@ -85,33 +90,55 @@ body {
     width: 20px;
     height: 20px;
     margin-right: 10px;
-    vertical-align: middle; /* 垂直居中图标 */
+    vertical-align: bottom;
 }
+
 
 /* Submenu */
 .submenu {
-    display: none; /* Initially hide submenu */
     margin-left: 20px;
     list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
 }
 
-.menu > li:hover .submenu {
+.menu li.active > .submenu {
+    max-height: 500px;
+}
+
+/* 保持 <li> 的 relative 定位 */
+.menu li { 
+    position: relative; 
+}
+
+.menu li > a {
+    position: relative; /* 将 a 标签也设置为相对定位 */
     display: block;
-}
-
-.submenu li a {
-    padding: 5px 10px;
-}
+  }
+  
+  .menu li > a .material-icon.arrow {
+    transition: transform 0.3s ease;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .menu li.active > a .material-icon.arrow {
+    transform: translateY(-50%) rotate(90deg);
+  }
 
 /* Main Content */
-
 .main-content {
-    width: 650px; /* 固定宽度 */
-    max-width: 100%; /* 确保小屏幕适应 */
+    width: 650px;
+    max-width: 100%;
     flex-grow: 1;
     padding: 30px;
-    opacity: 1; /* 初始透明度为 1 */
-    transition: opacity 0.1s ease-in-out; /* 添加过渡效果 */
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out, max-height 0.3s ease;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 .main-content.fade-out {
@@ -121,7 +148,23 @@ body {
 .main-content.fade-in {
     opacity: 1; /* 淡入 */
 }
+/* Custom scrollbar */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
 
+.main-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 .hero {
     background-color: #f7f7f7;
@@ -185,7 +228,7 @@ body {
     line-height: 1.6;
 }
 
-.占位符 {
+.place {
     height: 40px;
 }
 
@@ -193,6 +236,7 @@ body {
 @media (max-width: 768px) {
     .container {
       flex-direction: column; /* 垂直排列 */
+      min-height: 95vh;
     }
 
     .sidebar {
@@ -219,19 +263,20 @@ body {
     }
 
     .main-content {
-      padding: 15px; /* 缩小 padding */
+      padding: 15px;
     }
-    .info-box h1 {
-      font-size: 28px; /* 缩小标题字体 */
+    /*统一字体样式 */
+    .info-box h1, .post-content h1{
+        font-size: 36px;
+        margin-bottom: 10px;
     }
-    .info-box p{
-      font-size: 16px;
+    .info-box h2, .post-content h2{
+        font-size: 24px;
+        margin-bottom: 10px;
     }
-  .post-content h2 {
-        font-size: 20px;
+    .info-box p, .post-content p {
+        font-size: 16px;
+        line-height: 1.6;
     }
-  .post-content p{
-      font-size: 16px;
-  }
 
 }
