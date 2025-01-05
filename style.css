@@ -51,7 +51,6 @@ body {
 }
 
 .menu li a {
-    
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -146,6 +145,12 @@ body {
     line-height: 1.6;
 }
 
+.ice-icon{
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
 /* Post */
 .post-banner {
     height: 250px;
@@ -210,23 +215,23 @@ body {
     }
 
     .submenu {
-    margin-left: 10px; /* 缩小 submenu 的左边距 */
+      margin-left: 10px; /* 缩小 submenu 的左边距 */
     }
 
     .main-content {
-        padding: 15px; /* 缩小 padding */
+      padding: 15px; /* 缩小 padding */
     }
     .info-box h1 {
-        font-size: 28px; /* 缩小标题字体 */
+      font-size: 28px; /* 缩小标题字体 */
     }
     .info-box p{
-        font-size: 16px;
+      font-size: 16px;
     }
-    .post-content h2 {
+  .post-content h2 {
         font-size: 20px;
     }
-    .post-content p{
-        font-size: 16px;
-    }
+  .post-content p{
+      font-size: 16px;
+  }
 
-    }
+}
