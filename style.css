@@ -34,7 +34,27 @@ body {
     width: 250px; /* 按需调整 */
     padding: 30px;
     background-color: #e8eff8;
+    overflow-y: auto;
 }
+
+/* Custom scrollbar */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 
 .avatar {
     text-align: center;
@@ -242,6 +262,7 @@ body {
     .sidebar {
       width: 100%; /* 宽度铺满 */
       padding: 15px; /* 缩小 padding */
+      max-height: 30vh; /* 最大高度 */
     }
     .avatar img {
       width: 100px;
