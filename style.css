@@ -25,7 +25,7 @@ body {
     /* Fade in/out effect when clicking the button */
     transition: height 0.3s ease; /* 添加高度过渡效果 */
     min-height: 60vh; /* 最小高度 */
-    max-height: 70vh; /* 最大高度 */
+    max-height: 60vh; /* 最大高度 */
     height: auto; /* 高度随内容自适应 */
 }
 
@@ -215,6 +215,7 @@ body {
 
 .post-content {
     line-height: 1.6;
+    margin-bottom: 20px;
 }
 
 /* 针对小屏幕的样式调整 */
