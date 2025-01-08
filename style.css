@@ -7,7 +7,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    background-color: #e8eff8; /* Light blueish background */
+    background-color: #e8eff8; /*  Light blueish background */
     color: #222;
     display: flex;
     justify-content: center;
@@ -25,7 +25,7 @@ body {
     /* Fade in/out effect when clicking the button */
     transition: height 0.3s ease; /* 添加高度过渡效果 */
     min-height: 60vh; /* 最小高度 */
-    max-height: 60vh; /* 最大高度 */
+    max-height: 70vh; /* 最大高度 */
     height: auto; /* 高度随内容自适应 */
 }
 
@@ -201,10 +201,13 @@ body {
 
 /* Post */
 .post-banner {
+    margin-bottom: 20px;
+}
+
+.post-banner {
     height: 250px;
     overflow: hidden;
     border-radius: 10px;
-    margin-bottom: 20px;
 }
 
 .post-banner img {
@@ -215,7 +218,12 @@ body {
 
 .post-content {
     line-height: 1.6;
-    margin-bottom: 20px;
+}
+
+.post-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* 针对小屏幕的样式调整 */
